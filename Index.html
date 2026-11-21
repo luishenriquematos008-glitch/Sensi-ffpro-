@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SENSI FF PRO | Gerador Completo</title>
+    <style>
+        *{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',sans-serif;}
+        :root{--preto:#0f0f0f;--vermelho:#e50914;--vermelho-escuro:#b2070f;--cinza:#1a1a1a;--texto:#f0f0f0;}
+        body{background:linear-gradient(135deg,#0f0f0f 0%,#1a1a1a 100%);min-height:100vh;color:var(--texto);padding:20px;}
+        .container{max-width:900px;margin:0 auto;}
+        header{text-align:center;margin-bottom:40px;}
+        h1{font-size:2.5rem;color:var(--vermelho);text-shadow:0 0 15px rgba(229,9,20,0.5);margin-bottom:5px;}
+        h1 span{color:#fff;}
+        .subtitulo{color:#888;font-size:1rem;}
+        .card{background:var(--cinza);border-radius:12px;padding:25px;margin-bottom:25px;border-left:4px solid var(--vermelho);box-shadow:0 4px 15px rgba(0,0,0,0.5);transition:transform 0.3s;}
+        .card:hover{transform:translateY(-3px);}
+        h2{color:var(--vermelho);font-size:1.3rem;margin-bottom:18px;display:flex;align-items:center;gap:10px;}
+        label{display:block;margin:12px 0 5px 0;color:#ddd;font-weight:500;}
+        select,input{width:100%;padding:12px;border-radius:8px;border:none;background:#2a2a2a;color:#fff;font-size:1rem;}
+        select:focus,input:focus{outline:none;border:1px solid var(--vermelho);box-shadow:0 0 8px rgba(229,9,20,0.4);}
+        .linha{display:grid;grid-template-columns:1fr 1fr;gap:20px;}
+        button{background:linear-gradient(90deg,var(--vermelho) 0%,var(--vermelho-escuro) 100%);color:#fff;border:none;padding:15px;font-size:1.1rem;font-weight:bold;border-radius:8px;cursor:pointer;width:100%;margin-top:10px;transition:all 0.3s;box-shadow:0 4px 12px rgba(229,9,20,0.3);}
+        button:hover{transform:scale(1.02);box-shadow:0 6px 20px rgba(229,9,20,0.5);}
+        .resultado{background:#252525;border-radius:8px;padding:20px;margin-top:20px;display:none;}
+        .resultado.mostrar{display:block;animation:fadeIn 0.5s;}
+        @keyframes fadeIn{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:translateY(0);}}
+        .valor{font-size:1.2rem;padding:8px 0;border-bottom:1px solid #333;}
+        .valor span{font-weight:bold;color:var(--vermelho);float:right;}
+        .copiar{background:#28a745;margin-top:15px;}
+        .copiar:hover{background:#218838;}
+        .destaque{background:rgba(229,9,20,0.1);border:1px solid var(--vermelho);border-radius:8px;padding:15px;margin-top:15px;}
+        .destaque h3{color:var(--vermelho);margin-bottom:10px;}
+        .grupo{margin-bottom:15px;}
+        .aviso{background:rgba(255,193,7,0.1);border:1px solid #ffc107;border-radius:6px;padding:10px;margin-top:15px;font-size:0.9rem;color:#ffd700;}
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🔥 <span>SENSI</span> FF PRO</h1>
+            <p class="subtitulo">O melhor gerador de configurações para Free Fire do Brasil!</p>
+        </header>
+
+        <!-- SELEÇÃO DE CELULAR -->
+        <div class="card">
+            <h2>📱 Seu Celular</h2>
+            <label>Marca:</label>
+            <select id="marca" onchange="atualizarModelos()">
+                <option value="motorola">Motorola</option>
+                <option value="samsung">Samsung</option>
+                <option value="xiaomi">Xiaomi / Redmi</option>
+                <option value="poco">POCO</option>
+                <option value="outro">Outro Android</option>
+            </select>
+            
+            <label>Modelo:</label>
+            <select id="modelo">
+                <option value="g04s">Moto G04s</option>
+                <option value="g04">Moto G04</option>
+                <option value="g22">Moto G22</option>
+                <option value="g32">Moto G32</option>
+                <option value="g42">Moto G42</option>
+                <option value="g52">Moto G52</option>
+                <option value="g53">Moto G53</option>
+                <option value="g54">Moto G54</option>
+                <option value="g84">Moto G84</option>
+                <option value="edge40">Edge 40 Neo</option>
+                <option value="edge50">Edge 50</option>
+            </select>
+        </div>
+
+        <!-- ARMA E ESTILO -->
+        <div class="card">
+            <h2>🎮 Preferências de Jogo</h2>
+            <div class="linha">
+                <div class="grupo">
+                    <label>Arma Principal:</label>
+                    <select id="arma">
+                        <option value="ump">UMP — Mais estável</option>
+                        <option value="mp40">MP40 — Perto e rápido</option>
+                        <option value="m4a1">M4A1 — Tudo situação</option>
+                        <option value="ak">AK-47 — Dano alto</option>
+                        <option value="scar">SCAR — Precisão</option>
+                        <option value="awm">AWM — Sniper</option>
+                        <option value="sg">SG 553 — Mira forte</option>
+                        <option value="desert">Desert Eagle — Um tiro</option>
+                    </select>
+                </div>
+                <div class="grupo">
+                    <label>Estilo de Jogo:</label>
+                    <select id="estilo">
+                        <option value="capa">Só Capa 🎯</option>
+                        <option value="rush">Rush ⚔️</option>
+                        <option value="misto">Misto 🔄</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div class="linha">
+                <div class="grupo">
+                    <label>HUD (dedos):</label>
+                    <select id="hud">
+                        <option value="2">2 Dedos</option>
+                        <option value="3" selected>3 Dedos ✅</option>
+                        <option value="4">4 Dedos</option>
+                    </select>
+                </div>
+                <div class="grupo">
+                    <label>DPI Desejado:</label>
+                    <input type="number" id="dpi" value="708" placeholder="Ex: 708">
+                </div>
+            </div>
+        </div>
+
+        <!-- BOTÃO GERAR -->
+        <button onclick="gerarSensi()">🚀 GERAR MINHA SENSI</button>
+
+        <!-- RESULTADO -->
+        <div class="resultado" id="resultado">
+            <h2>✅ Sua Configuração Pronta!</h2>
+            
+            <div class="destaque">
+                <h3>📱 DPI do Celular</h3>
+                <div class="valor">DPI recomendado: <span id="val-dpi">708</span></div>
+                <div class="valor">Botão de acessibilidade: <span id="val-acessibilidade">LIGADO</span></div>
+                <p style="font-size:0.85rem;color:#aaa;margin-top:8px;">💡 Configurações → Acessibilidade → Controle de interação → Tempo de resposta: Curto</p>
+            </div>
+
+            <h3 style="margin-top:20px;color:#fff;">🎯 Sensibilidade</h3>
+            <div class="valor">Geral: <span id="val-geral">195</span></div>
+            <div class="valor">Ponto Vermelho: <span id="val-ponto">190</span></div>
+            <div class="valor">Mira 2x: <span id="val-mira2x">180</span></div>
+            <div class="valor">Mira 4x: <span id="val-mira4x">165</span></div>
+            <div class="valor">Mira Sniper: <span id="val-sniper">100</span></div>
+            <div class="valor">Câmera: <span id="val-camera">180</span></div>
+
+            <h3 style="margin-top:20px;color:#fff;">🔘 Botão de Tiro</h3>
+            <div class="valor">Tamanho ideal: <span id="val-botao">48%</span></div>
+            <div class="valor">Posição: <span>Parte inferior, fácil de tocar</span></div>
+
+            <h3 style="margin-top:20px;color:#fff;">🎯 Por Arma</h3>
+            <div class="valor">UMP: <span id="val-ump">Geral -5</span></div>
+            <div class="valor">MP40: <span id="val-mp40">Geral +5</span></div>
+            <div class="valor">M4A1/SCAR: <span id="val-m4">Geral padrão</span></div>
+            <div class="valor">AWM: <span id="val-awm">Sniper 95-100</span></div>
+
+            <div class="aviso">
+                ⚠️ <strong>Dica:</strong> Sempre teste no modo Treino primeiro. Ajuste de 2 em 2 pontos até achar o seu melhor!
+            </div>
+
+            <button class="copiar" onclick="copiarTudo()">📋 COPIAR TUDO</button>
+        </div>
+    </div>
+
+    <script>
+        // Modelos por marca
+        const modelos = {
+            motorola: [
+                ['g04s','Moto G04s'],['g04','Moto G04'],['g22','Moto G22'],['g32','Moto G32'],
+                ['g42','Moto G42'],['g52','Moto G52'],['g53','Moto G53'],['g54','Moto G54'],
+                ['g84','Moto G84'],['edge40','Edge 40 Neo'],['edge50','Edge 50']
+            ],
+            samsung: [
+                ['a05','Galaxy A05'],['a05s','Galaxy A05s'],['a06','Galaxy A06'],
+                ['a14','Galaxy A14'],['a15','Galaxy A15'],['a16','Galaxy A16'],
+                ['a24','Galaxy A24'],['a25','Galaxy A25'],['a34','Galaxy A34'],
+                ['a35','Galaxy A35'],['a54','Galaxy A54'],['a55','Galaxy A55'],
+                ['s21','Galaxy S21'],['s22','Galaxy S22'],['s23','Galaxy S23'],['s24','Galaxy S24']
+            ],
+            xiaomi: [
+                ['12c','Redmi 12C'],['13c','Redmi 13C'],['note12','Redmi Note 12'],
+                ['note13','Redmi Note 13'],['note14','Redmi Note 14'],
+                ['note13pro','Redmi Note 13 Pro']
+            ],
+            poco: [
+                ['c65','POCO C65'],['m5','POCO M5'],['m6','POCO M6'],
+                ['x5','POCO X5'],['x6','POCO X6'],['x6pro','POCO X6 Pro']
+            ],
+            outro: [['generico','Qualquer outro Android']]
+        };
+
+        function atualizarModelos(){
+            const marca = document.getElementById('marca').value;
+            const sel = document.getElementById('modelo');
+            sel.innerHTML = '';
+            modelos[marca].forEach(m=>{
+                const opt = document.createElement('option');
+                opt.value = m[0];
+                opt.textContent = m[1];
+                sel.appendChild(opt);
+            });
+        }
+
+        function gerarSensi(){
+            const estilo = document.getElementById('estilo').value;
+            const arma = document.getElementById('arma').value;
+            const dpi = parseInt(document.getElementById('dpi').value) || 708;
+            
+            // Base
+            let geral = 195, ponto = 190, m2 = 180, m4 = 165, sniper = 100, camera = 180;
+            let botao = '48%';
+            
+            // Ajuste por estilo
+            if(estilo === 'capa'){
+                geral = 198; ponto = 195; m2 = 185; m4 = 170; camera = 185;
+                botao = '45% — 50%';
+            } else if(estilo === 'rush'){
+                geral = 185; ponto = 188; m2 = 175; m4 = 160; camera = 175;
+                botao = '50% — 55%';
+            }
+
+            // DPI ajuste
+            let dpiFinal = dpi;
+            let acessibilidade = dpi > 600 ? 'Recomendado' : 'Opcional';
+
+            // Exibir
+            document.getElementById('val-dpi').textContent = dpiFinal;
+            document.getElementById('val-acessibilidade').textContent = acessibilidade;
+            document.getElementById('val-geral').textContent = geral;
+            document.getElementById('val-ponto').textContent = ponto;
+            document.getElementById('val-mira2x').textContent = m2;
+            document.getElementById('val-mira4x').textContent = m4;
+            document.getElementById('val-sniper').textContent = sniper;
+            document.getElementById('val-camera').textContent = camera;
+            document.getElementById('val-botao').textContent = botao;
+
+            // Armas
+            document.getElementById('val-ump').textContent = (geral - 5) + ' (mais estabilidade)';
+            document.getElementById('val-mp40').textContent = (geral + 5) + ' (movimento rápido)';
+            document.getElementById('val-m4').textContent = geral + ' (equilíbrio)';
+            document.getElementById('val-awm').textContent = '95 — 100';
+
+            document.getElementById('resultado').classList.add('mostrar');
+        }
+
+        function copiarTudo(){
+            const texto = `
+🔥 SENSI FF PRO — CONFIGURAÇÃO COMPLETA
+
+📱 DPI: ${document.getElementById('val-dpi').textContent}
+♿ Acessibilidade
