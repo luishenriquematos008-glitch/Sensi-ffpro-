@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SENSI FF PRO</title>
+    <style>
+        *{margin:0;padding:0;box-sizing:border-box;font-family:'Orbitron','Segoe UI',Arial,sans-serif;}
+        :root{
+            --roxo-escuro:#120428;
+            --roxo-medio:#5b21b6;
+            --roxo-claro:#8b5cf6;
+            --roxo-neon:#c4b5fd;
+            --preto-fundo:#05010d;
+            --preto-card:#0f0820;
+            --texto:#ddd6fe;
+            --borda-roxa:rgba(139,92,246,0.4);
+            --linha-circuit:rgba(196,181,253,0.08);
+        }
+        body{
+            background:var(--preto-fundo);
+            color:var(--texto);
+            padding:20px;
+            min-height:100vh;
+            position:relative;
+            overflow-x:hidden;
+        }
+        body::before{
+            content:'';
+            position:absolute;
+            top:0;left:0;right:0;bottom:0;
+            background-image: 
+                linear-gradient(var(--linha-circuit) 1px, transparent 1px),
+                linear-gradient(90deg, var(--linha-circuit) 1px, transparent 1px);
+            background-size:40px 40px;
+            opacity:0.3;
+            pointer-events:none;
+        }
+        .container{max-width:520px;margin:0 auto;position:relative;z-index:1;}
+        h1{
+            text-align:center;
+            background:linear-gradient(90deg, #8b5cf6, #c4b5fd, #8b5cf6);
+            background-size:200% auto;
+            -webkit-background-clip:text;
+            background-clip:text;
+            color:transparent;
+            animation: brilho 3s linear infinite;
+            margin-bottom:30px;
+            font-size:26px;
+            letter-spacing:2px;
+            text-transform:uppercase;
+        }
+        @keyframes brilho{0%{background-position:0% center;}100%{background-position:200% center;}}
+        .card{
+            background:linear-gradient(135deg, rgba(45,12,98,0.3), rgba(15,8,32,0.6));
+            border:1px solid var(--borda-roxa);
+            border-radius:12px;
+            padding:24px;
+            margin-bottom:15px;
+            position:relative;
+            box-shadow: 0 0 20px rgba(91,33,182,0.15), inset 0 0 30px rgba(139,92,246,0.03);
+        }
+        .card::before, .card::after{
+            content:'';
+            position:absolute;
+            width:12px;height:12px;
+            border:2px solid var(--roxo-claro);
+        }
+        .card::before{top:8px;left:8px;border-right:none;border-bottom:none;}
+        .card::after{top:8px;right:8px;border-left:none;border-bottom:none;}
+        label{display:block;margin:14px 0 6px;color:#a78bfa;font-size:14px;text-transform:uppercase;letter-spacing:1px;}
+        select,input{
+            width:100%;
+            padding:12px 14px;
+            border-radius:6px;
+            border:1px solid rgba(139,92,246,0.25);
+            background:rgba(18,4,40,0.6);
+            color:#fff;
+            font-size:15px;
+            outline:none;
+            transition:0.3s;
+            font-family:inherit;
+        }
+        select:focus,input:focus{
+            border-color:var(--roxo-claro);
+            box-shadow:0 0 0 2px rgba(139,92,246,0.2), 0 0 15px rgba(139,92,246,0.15);
+        }
+        button{
+            background:linear-gradient(90deg, #5b21b6, #7c3aed);
+            color:#fff;
+            border:none;
+            padding:15px;
+            font-size:16px;
+            font-weight:bold;
+            border-radius:6px;
+            width:100%;
+            cursor:pointer;
+            margin-top:12px;
+            transition:0.3s;
+            box-shadow:0 0 15px rgba(91,33,182,0.35);
+            text-transform:uppercase;
+            letter-spacing:1px;
+            font-family:inherit;
+            position:relative;
+            overflow:hidden;
+        }
+        button::after{
+            content:'';
+            position:absolute;
+            top:0;left:-100%;
+            width:100%;height:100%;
+            background:linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent);
+            transition:0.5s;
+        }
+        button:hover::after{left:100%;}
+        button:hover{
+            transform:translateY(-2px);
+            box-shadow:0 0 25px rgba(124,58,237,0.45);
+        }
+        button.verde{
+            background:linear-gradient(90deg, #166534, #15803d);
+            margin-top:25px;
+            box-shadow:0 0 15px rgba(22,101,52,0.3);
+        }
+        button.verde:hover{box-shadow:0 0 25px rgba(22,101,52,0.4);}
+        button.copiar{
+            background:linear-gradient(90deg, #312e81, #4338ca);
+            margin-top:15px;
+            box-shadow:0 0 15px rgba(49,46,129,0.3);
+        }
+        button.copiar:hover{box-shadow:0 0 25px rgba(67,56,202,0.4);}
+        .resultado{
+            background:linear-gradient(135deg, rgba(45,12,98,0.25), rgba(15,8,32,0.5));
+            border:1px solid rgba(196,181,253,0.25);
+            border-radius:12px;
+            padding:24px;
+            margin-top:25px;
+            display:none;
+            position:relative;
+        }
+        .resultado.mostrar{display:block;animation:aparece 0.5s ease;}
+        @keyframes aparece{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);}}
+        .linha{
+            padding:12px 0;
+            border-bottom:1px solid rgba(139,92,246,0.15);
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+        }
+        .valor{color:#c4b5fd;font-weight:bold;}
+        .secao{
+            margin-top:25px;
+            padding-top:20px;
+            border-top:1px dashed rgba(139,92,246,0.2);
+        }
+        h3{color:#a78bfa;margin-bottom:18px;font-size:18px;text-transform:uppercase;letter-spacing:1px;}
+        h4{color:#8b5cf6;margin-bottom:12px;font-size:15px;text-transform:uppercase;letter-spacing:0.5px;}
+        .botao-info{
+            background:rgba(91,33,182,0.1);
+            border-radius:6px;
+            padding:14px;
+            margin:10px 0;
+            border-left:3px solid #8b5cf6;
+        }
+        .botao-info strong{color:#ddd6fe;}
+        .dica{
+            background:rgba(139,92,246,0.06);
+            border-left:3px solid #c4b5fd;
+            padding:14px;
+            border-radius:0 6px 6px 0;
+            margin-top:12px;
+        }
+        .aviso{
+            background:rgba(234,179,8,0.06);
+            border:1px solid rgba(234,179,8,0.25);
+            border-radius:6px;
+            padding:14px;
+            margin-top:25px;
+            font-size:14px;
+            color:#fde047;
+            line-height:1.6;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🤖 SENSI FF PRO 🤖</h1>
+
+        <div class="card">
+            <label>📱 Seu Celular:</label>
+            <select id="celular">
+                <option value="g04s" selected>Moto G04s</option>
+                <option value="g04">Moto G04</option>
+                <option value="a22">Samsung Galaxy A22</option>
+                <option value="samsung">Samsung A05/A05s</option>
+                <option value="xiaomi">Redmi 12C/13C</option>
+            </select>
+
+            <label>🔫 Arma Principal:</label>
+            <select id="arma">
+                <option value="todas" selected>Todas</option>
+                <option value="eiac80">Carabina EIAC 80</option>
+                <option value="m1014">M1014</option>
+                <option value="mp40">MP40</option>
+            </select>
+
+            <label>🎮 Estilo de Jogo:</label>
+            <select id="estilo">
+                <option value="misto" selected>Misto</option>
+                <option value="capa">Só Capa</option>
+                <option value="rush">Rush</option>
+            </select>
+
+            <label>📐 DPI:</label>
+            <input type="number" id="dpi" value="708">
+        </div>
+
+        <button onclick="gerarSensi()">🤖 GERAR MINHA SENSI</button>
+
+        <div class="resultado" id="caixaSensi">
+            <h3>✅ SISTEMA PRONTO!</h3>
+            
+            <div class="linha">📐 DPI: <span class="valor" id="r-dpi">708</span></div>
+            <div class="linha">🎯 Geral: <span class="valor" id="r-geral">195</span></div>
+            <div class="linha">👁️ Ponto Vermelho: <span class="valor" id="r-ponto">190</span></div>
+            <div class="linha">🔭 Mira 2x: <span class="valor" id="r-m2">180</span></div>
+            <div class="linha">🔭 Mira 4x: <span class="valor" id="r-m4">165</span></div>
+            <div class="linha">🎯 Sniper: <span class="valor" id="r-sniper">100</span></div>
+            
+            <h4>🔫 POR ARMA:</h4>
+            <div class="linha">EIAC 80: <span class="valor" id="r-eiac">191 (-4)</span></div>
+            <div class="linha">M1014: <span class="valor" id="r-m1014">205 (+10)</span></div>
+
+            <div class="secao">
+                <h4>🔘 TAMANHO E POSIÇÃO DOS BOTÕES:</h4>
+                
+                <div class="botao-info">
+                    <strong>🎯 Botão de Atirar</strong><br>
+                    Tamanho: 48% — 52%<br>
+                    Posição: Canto inferior direito da tela
+                </div>
+                
+                <div class="botao-info">
+                    <strong>🔍 Botão de Mira</strong><br>
+                    Tamanho: 45% — 50%<br>
+                    Posição: Lado esquerdo, perto do botão de atirar
+                </div>
+                
+                <div class="botao-info">
+                    <strong>⬆️ Botão de Pular</strong><br>
+                    Tamanho: 40% — 45%<br>
+                    Posição: Lado direito, acima do botão de atirar
+                </div>
+                
+                <div class="botao-info">
+                    <strong>⬇️ Botão de Agachar</strong><br>
+                    Tamanho: 38% — 42%<br>
+                    Posição: Lado esquerdo, abaixo da mira
+                </div>
+                
+                <div class="botao-info">
+                    <strong>🔄 Botão de Recarregar</strong><br>
+                    Tamanho: 35% — 40%<br>
+                    Posição: Canto inferior esquerdo
+                </div>
+            </div>
+
+            <div class="secao">
+                <h4>🎯 DICA DE HEADSHOT:</h4>
+                <div class="dica">
+                    Suba a mira devagar enquanto atira. Com essa sensi, a mira sobe suave até a cabeça do inimigo! Não suba muito rápido, vai com calma pra ter controle total.
+                </div>
+            </div>
+
+            <div class="secao">
+                <h4>📱 DICA DO SEU CELULAR:</h4>
+                <div class="dica" id="dica-celular">
+                    Mantenha o DPI entre 680 e 720. Se a mira passar da cabeça, diminui 5 no DPI. Se for difícil de chegar na cabeça, aumenta 5. Teste sempre no modo Treino!
+                </div>
+            </div>
+
+            <button class="copiar" onclick="copiarTudo()">📋 COPIAR TUDO</button>
+            
+            <div class="aviso">
+                ⚠️ SISTEMA DE SEGURANÇA: Sempre teste no modo Treino primeiro! Ajuste de 2 em 2 pontos até achar o que funciona melhor pra você. O DPI muito alto pode travar seu celular!
+            </div>
+        </div>
+
+        <button class="verde" onclick="window.scrollTo({top:0,behavior:'smooth'})">⬆️ VOLTAR AO TOPO</button>
+    </div>
+
+    <script>
+        function gerarSensi(){
+            const estilo = document.getElementById('estilo').value;
+            const celular = document.getElementById('celular').value;
+            const dpi = parseInt(document.getElementById('dpi').value) || 708;
+            
+            let geral = 195, ponto = 190, m2 = 180, m4 = 165, sniper = 100;
+            let eiac = 191, m1014val = 205;
+            let dicaCelular = 'Mantenha o DPI entre 680 e 720. Se a mira passar da cabeça, diminui 5 no DPI. Se for difícil de chegar na cabeça, aumenta 5. Teste sempre no modo Treino!';
+            
+            if(celular === 'a22'){
+                geral = 192; ponto = 188; m2 = 178; m4 = 162; sniper = 98;
+                eiac = 188; m1014val = 202;
+                dicaCelular = 'No Galaxy A22, mantenha o DPI entre 450 e 500. Não exagera no DPI que a tela pode ficar lenta. Começa com 480 e ajusta aos poucos no modo Treino!';
+            }
+            
+            if(estilo === 'capa'){
+                geral += 3; ponto += 5; m2 += 5; m4 += 5;
+                eiac += 3; m1014val += 3;
+            } else if(estilo === 'rush'){
+                geral -= 10; ponto -= 2; m2 -= 5; m4 -= 5;
+                eiac -= 5; m1014val -= 7;
+            }
+
+            document.getElementById('r-dpi').textContent = dpi;
+            document.getElementById('r-geral').textContent = geral;
+            document.getElementById('r-ponto').textContent = ponto;
+            document.getElementById('r-m2').textContent = m2;
+            document.getElementById('r-m4').textContent = m4;
+            document.getElementById('r-sniper').textContent = sniper;
+            document.getElementById('r-eiac').textContent = eiac + ' (Geral -4)';
+            document.getElementById('r-m1014').textContent = m1014val + ' (Geral +10)';
+            document.getElementById('dica-celular').textContent = dicaCelular;
+            
+            document.getElementById('caixaSensi').classList.add('mostrar');
+            document.getElementById('caixaSensi').scrollIntoView({behavior:'smooth'});
+        }
+
+        function copiarTudo(){
+            const dpiVal = document.getElementById('r-dpi').textContent;
+            const geralVal = document.getElementById('r-geral').textContent;
+            const pontoVal = document.getElementById('r-ponto').textContent;
+            const m2Val = document.getElementById('r-m2').textContent;
+            const m4Val = document.getElementById('r-m4').textContent;
+            const sniperVal = document.getElementById('r-sniper').textContent;
+            const eiacVal = document.getElementById('r-eiac').textContent;
+            const m1014Val = document.getElementById('r-m1014').textContent;
+
+            const texto = `
+🤖 SENSI FF PRO — CONFIGURAÇÃO COMPLETA
+
+📱 Celular: ${document.getElementById('celular').selectedOptions[0].textContent}
+📐 DPI: ${dpiVal}
+
+🎯 SENSIBILIDADE:
+• Geral: ${geralVal}
+• Ponto Vermelho: ${pontoVal}
+• Mira 2x: ${m2Val}
+• Mira 4x: ${m4Val}
+• Sniper: ${sniperVal}
+
+🔫 POR ARMA:
+• Carabina EIAC 80: ${eiacVal}
+• M1014: ${m1014Val}
+
+🔘 BOTÕES:
+• Atirar: 48% — 52% (embaixo à direita)
+• Mira: 45% — 50% (lado esquerdo)
+• Pular: 40% — 45% (acima de atirar)
+• Agachar: 38% — 42% (abaixo da mira)
+• Recarregar: 35% — 40% (canto inferior esquerdo)
+
+🎯 DICA: Suba a mira devagar enquanto atira!
+            `;
+            navigator.clipboard.writeText(texto.trim()).then(() => {
+                alert('✅ DADOS COPIADOS COM SUCESSO!');
+            }).catch(() => {
+                alert('❌ Não foi possível copiar. Selecione e copie manualmente.');
+            });
