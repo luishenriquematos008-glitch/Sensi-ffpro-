@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SENSI FF PRO</title>
+    <style>
+        *{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',Arial,sans-serif;}
+        :root{
+            --vermelho-escuro:#2b0000;
+            --vermelho-medio:#b91c1c;
+            --vermelho-claro:#ef4444;
+            --vermelho-neon:#fca5a5;
+            --preto-fundo:#0a0a0a;
+            --preto-card:#141414;
+            --texto:#fecaca;
+            --texto-claro:#ffffff;
+            --borda-vermelha:rgba(239,68,68,0.35);
+        }
+        body{
+            background:var(--preto-fundo);
+            color:var(--texto);
+            min-height:100vh;
+            display:flex;
+            flex-direction:column;
+            align-items:center;
+            justify-content:center;
+            padding:20px;
+        }
+        .container{max-width:520px;width:100%;position:relative;}
+        
+        /* Logo e Animação */
+        .logo-container{text-align:center;margin-bottom:40px;position:relative;}
+        .logo-circle{
+            width:140px;height:140px;margin:0 auto;
+            border-radius:50%;
+            background:radial-gradient(circle, rgba(185,28,28,0.3), transparent 70%);
+            display:flex;align-items:center;justify-content:center;
+            position:relative;
+        }
+        .logo-circle::before{
+            content:'';position:absolute;width:100%;height:100%;
+            border-radius:50%;border:2px solid rgba(239,68,68,0.3);
+            animation: pulsar 2s ease-in-out infinite;
+        }
+        .logo-text{
+            font-size:22px;font-weight:bold;color:var(--vermelho-claro);
+            text-shadow:0 0 20px rgba(239,68,68,0.5);
+            letter-spacing:2px;text-transform:uppercase;
+        }
+        @keyframes pulsar{0%{transform:scale(1);opacity:1;}100%{transform:scale(1.3);opacity:0;}}
+
+        /* Barra de Etapas */
+        .etapas{
+            display:flex;justify-content:space-between;align-items:center;
+            margin-bottom:30px;position:relative;
+        }
+        .etapas::before{
+            content:'';position:absolute;top:22px;left:15%;right:15%;
+            height:2px;background:rgba(239,68,68,0.2);z-index:0;
+        }
+        .etapa{text-align:center;position:relative;z-index:1;}
+        .etapa-num{
+            width:46px;height:46px;border-radius:50%;
+            background:var(--preto-card);border:2px solid rgba(239,68,68,0.25);
+            color:#999;display:flex;align-items:center;justify-content:center;
+            margin:0 auto 8px;font-weight:bold;transition:0.3s;
+        }
+        .etapa.ativa .etapa-num{
+            background:var(--vermelho-medio);border-color:var(--vermelho-claro);
+            color:#fff;box-shadow:0 0 15px rgba(239,68,68,0.4);
+        }
+        .etapa.concluida .etapa-num{
+            background:var(--vermelho-claro);border-color:var(--vermelho-claro);
+            color:#fff;
+        }
+        .etapa-nome{font-size:11px;text-transform:uppercase;color:#777;letter-spacing:0.5px;}
+        .etapa.ativa .etapa-nome{color:var(--vermelho-neon);font-weight:600;}
+
+        /* Card Principal */
+        .card{
+            background:linear-gradient(135deg, rgba(43,0,0,0.15), rgba(20,20,20,0.9));
+            border:1px solid var(--borda-vermelha);
+            border-radius:16px;padding:30px;margin-bottom:25px;
+            box-shadow:0 0 30px rgba(185,28,28,0.1);
+        }
+        .card h2{
+            font-size:26px;color:#fff;text-align:center;margin-bottom:15px;
+            line-height:1.3;text-transform:uppercase;letter-spacing:1px;
+        }
+        .card p{text-align:center;color:#aaa;margin-bottom:25px;line-height:1.6;}
+        .subtitulo{text-align:center;color:var(--vermelho-neon);text-transform:uppercase;font-size:14px;margin-bottom:20px;letter-spacing:1px;}
+
+        label{display:block;margin:18px 0 8px;color:#ddd;font-size:14px;font-weight:500;}
+        select,input{
+            width:100%;padding:14px 16px;border-radius:8px;
+            border:1px solid rgba(239,68,68,0.2);
+            background:rgba(10,10,10,0.8);color:#fff;font-size:15px;
+            outline:none;transition:0.3s;
+        }
+        select:focus,input:focus{
+            border-color:var(--vermelho-claro);
+            box-shadow:0 0 0 3px rgba(239,68,68,0.1);
+        }
+
+        /* Botões */
+        .botoes{display:flex;gap:12px;margin-top:25px;}
+        button{
+            flex:1;padding:15px;border:none;border-radius:8px;
+            font-size:16px;font-weight:bold;cursor:pointer;
+            transition:0.3s;text-transform:uppercase;letter-spacing:1px;
+        }
+        .btn-proximo{
+            background:linear-gradient(90deg, #b91c1c, #dc2626);color:#fff;
+            box-shadow:0 0 15px rgba(185,28,28,0.3);
+        }
+        .btn-proximo:hover{transform:translateY(-2px);box-shadow:0 0 25px rgba(220,38,38,0.4);}
+        .btn-voltar{
+            background:transparent;color:#888;border:1px solid #333;
+        }
+        .btn-voltar:hover{border-color:#555;color:#fff;}
+        .btn-copiar{
+            background:linear-gradient(90deg, #1f2937, #374151);color:#fff;
+            margin-top:15px;box-shadow:0 0 10px rgba(0,0,0,0.3);
+        }
+        .btn-copiar:hover{box-shadow:0 0 20px rgba(55,65,81,0.4);}
+        .btn-comecar{width:100%;background:linear-gradient(90deg, #b91c1c, #ef4444);color:#fff;
+            font-size:18px;padding:18px;box-shadow:0 0 20px rgba(185,28,28,0.35);}
+        .btn-comecar:hover{transform:translateY(-2px);box-shadow:0 0 30px rgba(239,68,68,0.5);}
+
+        /* Etapas - Mostrar/Esconder */
+        .etapa-conteudo{display:none;animation:fadeIn 0.4s ease;}
+        .etapa-conteudo.visivel{display:block;}
+        @keyframes fadeIn{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:translateY(0);}}
+
+        /* Resultado */
+        .resultado-item{
+            display:flex;justify-content:space-between;align-items:center;
+            padding:14px 0;border-bottom:1px solid rgba(239,68,68,0.1);
+        }
+        .resultado-item:last-child{border-bottom:none;}
+        .resultado-label{color:#aaa;}
+        .resultado-valor{color:var(--vermelho-neon);font-weight:bold;font-size:16px;}
+        .secao-titulo{color:var(--vermelho-claro);margin:25px 0 15px 0;font-size:15px;text-transform:uppercase;letter-spacing:0.5px;padding-bottom:8px;border-bottom:1px dashed rgba(239,68,68,0.2);}
+        .dica-box{background:rgba(239,68,68,0.05);border-left:3px solid var(--vermelho-claro);padding:15px;border-radius:0 6px 6px 0;margin-top:10px;}
+        .aviso{background:rgba(234,179,8,0.05);border:1px solid rgba(234,179,8,0.2);border-radius:6px;padding:12px;margin-top:20px;font-size:13px;color:#fde047;line-height:1.5;}
+
+        /* Rodapé */
+        .rodape{margin-top:40px;text-align:center;color:#555;font-size:12px;}
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Logo -->
+        <div class="logo-container">
+            <div class="logo-circle">
+                <span class="logo-text">SENSI FF PRO</span>
+            </div>
+        </div>
+
+        <!-- Barra de Etapas -->
+        <div class="etapas">
+            <div class="etapa ativa" id="etapa-ind-1">
+                <div class="etapa-num">1</div>
+                <div class="etapa-nome">Análise</div>
+            </div>
+            <div class="etapa" id="etapa-ind-2">
+                <div class="etapa-num">2</div>
+                <div class="etapa-nome">Perfil</div>
+            </div>
+            <div class="etapa" id="etapa-ind-3">
+                <div class="etapa-num">3</div>
+                <div class="etapa-nome">Config.</div>
+            </div>
+            <div class="etapa" id="etapa-ind-4">
+                <div class="etapa-num">4</div>
+                <div class="etapa-nome">Resultado</div>
+            </div>
+        </div>
+
+        <!-- ETAPA 1: ANÁLISE -->
+        <div class="etapa-conteudo visivel" id="etapa-1">
+            <div class="card">
+                <h2>DESCUBRA O QUE ESTÁ ATRAPALHANDO SUA MIRA</h2>
+                <p>Responda algumas perguntas rápidas sobre sua configuração e obtenha a sensibilidade perfeita para jogar com mais precisão e dar mais headshot!</p>
+                <p style="color:#888;font-size:13px;">Leva menos de 2 minutos.</p>
+                <button class="btn-comecar" onclick="proximaEtapa()">🚀 COMEÇAR ANÁLISE</button>
+            </div>
+        </div>
+
+        <!-- ETAPA 2: PERFIL -->
+        <div class="etapa-conteudo" id="etapa-2">
+            <div class="card">
+                <h2>SEU PERFIL DE JOGADOR</h2>
+                <p>Escolha suas preferências abaixo</p>
+
+                <label>📱 Qual é o seu celular?</label>
+                <select id="celular">
+                    <option value="g04s" selected>Moto G04s</option>
+                    <option value="g04">Moto G04</option>
+                    <option value="a22">Samsung Galaxy A22</option>
+                    <option value="samsung">Samsung A05/A05s</option>
+                    <option value="xiaomi">Redmi 12C/13C</option>
+                </select>
+
+                <label>🔫 Qual sua arma principal?</label>
+                <select id="arma">
+                    <option value="todas" selected>Todas</option>
+                    <option value="eiac80">Carabina EIAC 80</option>
+                    <option value="m1014">M1014</option>
+                    <option value="mp40">MP40</option>
+                </select>
+
+                <label>🎮 Seu estilo de jogo?</label>
+                <select id="estilo">
+                    <option value="misto" selected>Misto</option>
+                    <option value="capa">Só Capa</option>
+                    <option value="rush">Rush</option>
+                </select>
+
+                <label>📐 DPI do seu celular:</label>
+                <input type="number" id="dpi" value="708">
+
+                <div class="botoes">
+                    <button class="btn-voltar" onclick="etapaAnterior()">⬅️ Voltar</button>
+                    <button class="btn-proximo" onclick="proximaEtapa()">Próximo ➡️</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- ETAPA 3: CONFIGURAÇÃO -->
+        <div class="etapa-conteudo" id="etapa-3">
+            <div class="card">
+                <h2>CONFIRA SEUS DADOS</h2>
+                <p>Confirme e gere sua sensibilidade</p>
+
+                <div class="resultado-item">
+                    <span class="resultado-label">📱 Celular:</span>
+                    <span class="resultado-valor" id="res-celular">—</span>
+                </div>
+                <div class="resultado-item">
+                    <span class="resultado-label">🔫 Arma:</span>
+                    <span class="resultado-valor" id="res-arma">—</span>
+                </div>
+                <div class="resultado-item">
+                    <span class="resultado-label">🎮 Estilo:</span>
+                    <span class="resultado-valor" id="res-estilo">—</span>
+                </div>
+                <div class="resultado-item">
+                    <span class="resultado-label">📐 DPI:</span>
+                    <span class="resultado-valor" id="res-dpi">—</span>
+                </div>
+
+                <div class="botoes">
+                    <button class="btn-voltar" onclick="etapaAnterior()">⬅️ Voltar</button>
+                    <button class="btn-proximo" onclick="gerarSensiEIr()">🔥 GERAR MINHA SENSI</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- ETAPA 4: RESULTADO -->
+        <div class="etapa-conteudo" id="etapa-4">
+            <div class="card">
+                <h2>✅ SENSI PRONTA!</h2>
+                <p>Aqui está sua configuração completa</p>
+
+                <div class="secao-titulo">📐 DADOS GERAIS</div>
+                <div class="resultado-item">
+                    <span class="resultado-label">DPI:</span>
+                    <span class="resultado-valor" id="r-dpi">708</span>
+                </div>
+
+                <div class="secao-titulo">🎯 SENSIBILIDADE</div>
+                <div class="resultado-item">
+                    <span class="resultado-label">Geral:</span>
+                    <span class="resultado-valor" id="r-geral">195</span>
+                </div>
+                <div class="resultado-item">
+                    <span class="resultado-label">Ponto Vermelho:</span>
+                    <span class="resultado-valor" id="r-ponto">190</span>
+                </div>
+                <div class="resultado-item">
+                    <span class="resultado-label">Mira 2x:</span>
+                    <span class="resultado-valor" id="r-m2">180</span>
+                </div>
+                <div class="resultado-item">
+                    <span class="resultado-label">Mira 4x:</span>
+                    <span class="resultado-valor" id="r-m4">165</span>
+                </div>
+                <div class="resultado-item">
+                    <span class="resultado-label">Sniper:</span>
+                    <span class="resultado-valor" id="r-sniper">100</span>
+                </div>
+
+                <div class="secao-titulo">🔫 POR ARMA</div>
+                <div class="resultado-item">
+                    <span class="resultado-label">EIAC 80:</span>
+                    <span class="resultado-valor" id="r-eiac">191 (-4)</span>
+                </div>
+                <div class="resultado-item">
+                    <span class="resultado-label">M1014:</span>
+                    <span class="resultado-valor" id="r-m1014">205 (+10)</span>
+                </div>
+
+                <div class="secao-titulo">🔘 BOTÕES</div>
+                <div class="dica-box">
+                    <strong>🎯 Atirar:</strong> 48% — 52% (canto inferior direito)<br>
+                    <strong>🔍 Mira:</strong> 45% — 50% (lado esquerdo)<br>
+                    <strong>⬆️ Pular:</strong> 40% — 45% (acima de atirar)<br>
+                    <strong>⬇️ Agachar:</strong> 38% — 42% (abaixo da mira)<br>
+                    <strong>🔄 Recarregar:</strong> 35% — 40% (canto inferior esquerdo)
+                </div>
+
+                <div class="secao-titulo">💡 DICAS</div>
+                <div class="dica-box" id="dica-celular">
+                    Suba a mira devagar enquanto atira! Teste sempre no modo Treino primeiro. Ajuste de 2 em 2 pontos até achar o ideal pra você.
+                </div>
+
+                <button class="btn-copiar" onclick="copiarTudo()">📋 COPIAR TUDO</button>
+
+                <div class="aviso">
+                    ⚠️ SEMPRE teste no modo Treino! O DPI muito alto pode travar seu celular. Jogue com responsabilidade.
+                </div>
+
+                <div class="botoes" style="margin-top:25px;">
+                    <button class="btn-voltar" onclick="etapaAnterior()">⬅️ Refazer</button>
+                    <button class="btn
