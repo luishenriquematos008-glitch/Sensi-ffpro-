@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SENSI FF PRO</title>
+    <style>
+        *{margin:0;padding:0;box-sizing:border-box;}
+        body{
+            background:#0f0f0f;
+            color:#fff;
+            font-family:Arial,sans-serif;
+            padding:20px;
+            max-width:480px;
+            margin:0 auto;
+        }
+        h1{
+            text-align:center;
+            color:#ef4444;
+            font-size:26px;
+            margin:30px 0;
+        }
+        .caixa{
+            background:#1a1a1a;
+            border-left:3px solid #ef4444;
+            padding:20px;
+            border-radius:8px;
+            margin-bottom:20px;
+        }
+        label{
+            display:block;
+            margin:15px 0 5px;
+            color:#ddd;
+        }
+        select,input{
+            width:100%;
+            padding:10px;
+            border-radius:4px;
+            border:1px solid #333;
+            background:#222;
+            color:#fff;
+            font-size:15px;
+        }
+        button{
+            width:100%;
+            padding:14px;
+            border:none;
+            border-radius:4px;
+            font-size:16px;
+            font-weight:bold;
+            cursor:pointer;
+            margin-top:15px;
+        }
+        .btn-vermelho{
+            background:linear-gradient(90deg, #b91c1c, #ef4444);
+            color:#fff;
+        }
+        .btn-cinza{
+            background:#374151;
+            color:#fff;
+        }
+        .resultado{
+            margin-top:20px;
+        }
+        .linha{
+            display:flex;
+            justify-content:space-between;
+            padding:8px 0;
+            border-bottom:1px solid #2a2a2a;
+        }
+        .valor{color:#fca5a5;font-weight:bold;}
+        .oculto{display:none;}
+    </style>
+</head>
+<body>
+
+    <h1>🔥 SENSI FF PRO</h1>
+
+    <div class="caixa" id="formulario">
+        <label>📱 Qual é o seu celular?</label>
+        <select id="celular">
+            <option selected>Moto G04s</option>
+            <option>Moto G04</option>
+            <option>Samsung A05</option>
+            <option>Samsung A05s</option>
+            <option>Redmi 12C</option>
+            <option>Outro</option>
+        </select>
+
+        <label>📐 DPI:</label>
+        <input type="number" id="dpi" value="708">
+
+        <button class="btn-vermelho" onclick="mostrarResultado()">🔥 GERAR MINHA SENSI</button>
+    </div>
+
+    <div class="caixa oculto" id="resultado">
+        <h3>✅ SENSI PRONTA!</h3>
+        <div class="resultado">
+            <div class="linha">
+                <span>DPI</span>
+                <span class="valor" id="r-dpi">708</span>
+            </div>
+            <div class="linha">
+                <span>Geral</span>
+                <span class="valor">195</span>
+            </div>
+            <div class="linha">
+                <span>Ponto Vermelho</span>
+                <span class="valor">190</span>
+            </div>
+            <div class="linha">
+                <span>Mira 2x</span>
+                <span class="valor">180</span>
+            </div>
+            <div class="linha">
+                <span>Mira 4x</span>
+                <span class="valor">165</span>
+            </div>
+            <div class="linha">
+                <span>Sniper</span>
+                <span class="valor">100</span>
+            </div>
+        </div>
+        <button class="btn-cinza" onclick="copiarTudo()">📋 COPIAR TUDO</button>
+        <button class="btn-vermelho" onclick="recarregar()">🔄 RECARREGAR</button>
+    </div>
+
+<script>
+function mostrarResultado(){
+    const dpi = document.getElementById('dpi').value;
+    document.getElementById('r-dpi').textContent = dpi;
+    document.getElementById('formulario').classList.add('oculto');
+    document.getElementById('resultado').classList.remove('oculto');
+}
+function copiarTudo(){
+    const texto = 'DPI: ' + document.getElementById('r-dpi').textContent + '\nGeral: 195\nPonto Vermelho: 190\nMira 2x: 180\nMira 4x: 165\nSniper: 100';
+    navigator.clipboard.writeText(texto).then(function(){
+        alert('✅ Copiado com sucesso!');
+    });
+}
+function recarregar(){
+    location.reload();
+}
+</script>
+
+</body>
+</html>
